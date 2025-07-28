@@ -1,23 +1,30 @@
-export const useRequestUpdateTodo = (refresh) => {
-  const updateTodo = (todoId, completed) => {
-    return fetch(`http://localhost:3000/todos/${todoId}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ completed }),
+import { useState } from "react";
+import { ref, set } from "firebase/database";
+import { db } from "../firebase";
+
+export const useRequestUpdateTodo = () => {
+  const [isUpdating, setIsUpdating] = useState(false);
+
+  const updateTodo = (todo) => {
+    setIsUpdating(true);
+
+    const { id, completed } = todo;
+    const todosRef = ref(db, `todos/${id}`);
+    set(todosRef, {
+      ...todo,
+      completed: !completed,
     })
-      .then((res) => res.json())
-      .then((updatedTodo) => {
-        console.log("Updated todo:", updatedTodo);
-        return updatedTodo;
+      .then(() => {
+        console.log("Todo updated successfully");
       })
       .catch((error) => {
         console.error("Error creating todo:", error);
         throw error;
       })
       .finally(() => {
-        refresh();
+        setIsUpdating(false);
       });
   };
 
-  return { updateTodo };
+  return { isUpdating, updateTodo };
 };

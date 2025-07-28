@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styles from "./TodoForm.module.css";
 
-const TodoForm = ({ onAdd }) => {
+const TodoForm = ({ isCreating, onAdd }) => {
   const [title, setTitle] = useState("");
 
   const handleSubmit = (e) => {
@@ -20,7 +20,7 @@ const TodoForm = ({ onAdd }) => {
         onChange={({ target }) => setTitle(target.value)}
         placeholder="Add new todo..."
       />
-      <button className={styles.button} type="submit">
+      <button className={styles.button} type="submit" disabled={isCreating}>
         Add
       </button>
     </form>

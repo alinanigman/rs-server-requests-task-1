@@ -1,20 +1,24 @@
-export const useRequestDeleteTodo = (refresh) => {
+import { useState } from "react";
+import { ref, remove } from "firebase/database";
+import { db } from "../firebase";
+
+export const useRequestDeleteTodo = () => {
+  const [isDeleting, setIsDeleting] = useState(false);
+
   const deleteTodo = (todoId) => {
-    return fetch(`http://localhost:3000/todos/${todoId}`, {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-    })
+    console.log("Deleting todo...", todoId);
+    const todosRef = ref(db, `todos/${todoId}`);
+    remove(todosRef)
       .then(() => {
-        console.log("Deleted todo successfully");
+        console.log("Todo deleted successfully");
       })
       .catch((error) => {
-        console.error("Error creating todo:", error);
-        throw error;
+        console.error("Error deleting todo:", error);
       })
       .finally(() => {
-        refresh();
+        setIsDeleting(false);
       });
   };
 
-  return { deleteTodo };
+  return { isDeleting, deleteTodo };
 };

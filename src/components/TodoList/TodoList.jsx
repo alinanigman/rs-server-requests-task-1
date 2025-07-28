@@ -1,7 +1,14 @@
 import { useState, useEffect, useMemo } from "react";
 import styles from "./TodoList.module.css";
 
-const TodoList = ({ list, isLoading, onToggle, onDelete }) => {
+const TodoList = ({
+  list,
+  isLoading,
+  isUpdating,
+  isDeleting,
+  onToggle,
+  onDelete,
+}) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [debouncedQuery, setDebouncedQuery] = useState("");
   const [isSorted, setIsSorted] = useState(false);
@@ -47,6 +54,7 @@ const TodoList = ({ list, isLoading, onToggle, onDelete }) => {
           <div key={listItem.id} className={styles.listItem}>
             <div className={styles.listItemTitle}>
               <input
+                disabled={isUpdating}
                 type="checkbox"
                 checked={listItem.completed}
                 onChange={() => onToggle(listItem)}
@@ -54,6 +62,7 @@ const TodoList = ({ list, isLoading, onToggle, onDelete }) => {
               <div className={styles.listItemCheckbox}>{listItem.title}</div>
             </div>
             <button
+              disabled={isDeleting}
               className={styles.deleteButton}
               onClick={() => onDelete(listItem.id)}
             >
