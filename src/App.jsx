@@ -4,6 +4,7 @@ import {
   useRequestGetList,
   useRequestCreateTodo,
   useRequestUpdateTodo,
+  useRequestDeleteTodo,
 } from "./hooks";
 import { TodoForm, TodoList } from "./components";
 
@@ -13,6 +14,7 @@ function App() {
   const { list, isLoading } = useRequestGetList(refreshFlag);
   const { createTodo } = useRequestCreateTodo(refresh);
   const { updateTodo } = useRequestUpdateTodo(refresh);
+  const { deleteTodo } = useRequestDeleteTodo(refresh);
 
   const handleAdd = (newTodo) => {
     createTodo(newTodo);
@@ -23,11 +25,20 @@ function App() {
     updateTodo(id, !completed);
   };
 
+  const handleDelete = (todoId) => {
+    deleteTodo(todoId);
+  };
+
   return (
     <div className={styles.App}>
       <h1 className={styles.header}>Todo list</h1>
       <TodoForm onAdd={handleAdd} />
-      <TodoList list={list} isLoading={isLoading} onToggle={handleToggle} />
+      <TodoList
+        list={list}
+        isLoading={isLoading}
+        onToggle={handleToggle}
+        onDelete={handleDelete}
+      />
     </div>
   );
 }
