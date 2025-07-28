@@ -3,7 +3,7 @@ export const useRequestGetList = () => {
   const [list, setList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
-    fetch("https://jsonplaceholder.typicode.com/todos")
+    fetch("http://localhost:3000/todos")
       .then((response) => response.json())
       .then((data) => {
         console.log("Fetched list:", data);
