@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-export const useRequestGetList = () => {
+export const useRequestGetList = (refreshFlag) => {
   const [list, setList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
@@ -16,7 +16,7 @@ export const useRequestGetList = () => {
       .finally(() => {
         setIsLoading(false);
       });
-  }, []);
+  }, [refreshFlag]);
   return {
     list,
     isLoading,
