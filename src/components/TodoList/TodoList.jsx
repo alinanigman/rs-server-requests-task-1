@@ -8,7 +8,11 @@ const TodoList = ({ list, isLoading }) => {
       ) : (
         list.map((listItem) => (
           <div key={listItem.id} className={styles.listItem}>
-            {listItem.title}
+            <div className={styles.listItemTitle}>
+              <input type="checkbox" checked={listItem.completed} />
+              <div className={styles.listItemCheckbox}>{listItem.title}</div>
+            </div>
+            <button className={styles.deleteButton}>Delete</button>
           </div>
         ))
       )}
