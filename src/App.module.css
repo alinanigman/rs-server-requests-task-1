@@ -15,23 +15,3 @@
     font-size: 2em;
     border-bottom: 1px solid #ccc;      
 }
-
-.list {
-    padding: 24px;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-
-.listItem {
-    padding: 1em;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-}
-
-@media (prefers-color-scheme: light) {
-    .listItem {
-        border: 1px solid rgba(0, 0, 0, 0.1);
-    }
-}
