@@ -1,24 +1,23 @@
-import { useState } from "react";
-import { ref, push } from "firebase/database";
-import { db } from "../firebase";
-
-export const useRequestCreateTodo = () => {
-  const [isCreating, setIsCreating] = useState(false);
+export const useRequestCreateTodo = (refresh) => {
   const createTodo = (todoText) => {
-    setIsCreating(true);
-    const todosRef = ref(db, "todos");
-    push(todosRef, { title: todoText, completed: false })
-      .then((response) => {
-        console.log("Created todo:", response);
+    return fetch("http://localhost:3000/todos", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ title: todoText, completed: false }),
+    })
+      .then((res) => res.json())
+      .then((createdTodo) => {
+        console.log("Created todo:", createdTodo);
+        return createdTodo;
       })
       .catch((error) => {
         console.error("Error creating todo:", error);
         throw error;
       })
       .finally(() => {
-        setIsCreating(false);
+        refresh();
       });
   };
 
-  return { isCreating, createTodo };
+  return { createTodo };
 };

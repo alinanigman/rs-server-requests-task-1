@@ -1,24 +1,24 @@
 import { useState, useEffect } from "react";
-import { ref, onValue } from "firebase/database";
-import { db } from "../firebase";
-
-export const useRequestGetList = () => {
+export const useRequestGetList = (refreshFlag) => {
   const [list, setList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-
   useEffect(() => {
-    const todosRef = ref(db, "todos");
-    return onValue(todosRef, (snapshot) => {
-      const data = snapshot.val();
-      const todosArray = data
-        ? Object.keys(data).map((key) => ({ id: key, ...data[key] }))
-        : [];
-      setList(todosArray);
-      setIsLoading(false);
-    });
-  }, []);
+    fetch("http://localhost:3000/todos")
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Fetched list:", data);
+        setList(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching list:", error);
+        setIsLoading(false);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, [refreshFlag]);
   return {
-    isLoading,
     list,
+    isLoading,
   };
 };

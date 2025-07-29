@@ -6,12 +6,15 @@ import {
 } from "../hooks";
 import { PageHeader, ListItem } from "../components";
 import styles from "../App.module.css";
+import { useState } from "react";
 
 function TaskPage() {
+  const [refreshFlag, setRefreshFlag] = useState(false);
+  const refresh = () => setRefreshFlag(!refreshFlag);
   const navigate = useNavigate();
   const { id } = useParams();
-  const { isLoading, todo } = useRequestGetTodo(id);
-  const { isUpdating, updateTodo } = useRequestUpdateTodo();
+  const { isLoading, todo } = useRequestGetTodo(id, refreshFlag);
+  const { isUpdating, updateTodo } = useRequestUpdateTodo(refresh);
   const { isDeleting, deleteTodo } = useRequestDeleteTodo();
 
   const handleToggle = () => {
