@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import styles from "./TodoList.module.css";
+import { TextField } from "../index";
 
 const TodoList = ({
   list,
@@ -40,12 +41,10 @@ const TodoList = ({
         <input type="checkbox" checked={isSorted} onChange={toggleSort} />
         Sort alphabetically
       </label>
-      <input
-        type="text"
+      <TextField
         value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
+        onChange={setSearchQuery}
         placeholder="Search todos..."
-        className={styles.searchInput}
       />
       {isLoading ? (
         <div className={styles.loader}></div>

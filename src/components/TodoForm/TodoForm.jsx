@@ -1,5 +1,6 @@
 import { useState } from "react";
 import styles from "./TodoForm.module.css";
+import { TextField } from "../index";
 
 const TodoForm = ({ isCreating, onAdd }) => {
   const [title, setTitle] = useState("");
@@ -13,11 +14,9 @@ const TodoForm = ({ isCreating, onAdd }) => {
 
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
-      <input
-        className={styles.input}
-        type="text"
+      <TextField
         value={title}
-        onChange={({ target }) => setTitle(target.value)}
+        onChange={setTitle}
         placeholder="Add new todo..."
       />
       <button className={styles.button} type="submit" disabled={isCreating}>
