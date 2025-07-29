@@ -1,42 +1,26 @@
 import styles from "../App.module.css";
-import {
-  useRequestGetList,
-  useRequestCreateTodo,
-  useRequestUpdateTodo,
-  useRequestDeleteTodo,
-} from "../hooks";
-import { TodoForm, TodoList } from "../components";
+import { useRequestGetList, useRequestCreateTodo } from "../hooks";
+import { useNavigate } from "react-router-dom";
+import { PageHeader, TodoForm, TodoList } from "../components";
 
 function HomePage() {
+  const navigate = useNavigate();
   const { list, isLoading } = useRequestGetList();
   const { isCreating, createTodo } = useRequestCreateTodo();
-  const { isUpdating, updateTodo } = useRequestUpdateTodo();
-  const { isDeleting, deleteTodo } = useRequestDeleteTodo();
 
   const handleAdd = (newTodo) => {
     createTodo(newTodo);
   };
 
-  const handleToggle = (todo) => {
-    updateTodo(todo);
-  };
-
-  const handleDelete = (todoId) => {
-    deleteTodo(todoId);
+  const handleClick = (todoId) => {
+    navigate(`/task/${todoId}`);
   };
 
   return (
     <div className={styles.App}>
-      <h1 className={styles.header}>Todo list</h1>
+      <PageHeader title={"Todo list"} />
       <TodoForm isCreating={isCreating} onAdd={handleAdd} />
-      <TodoList
-        list={list}
-        isLoading={isLoading}
-        isUpdating={isUpdating}
-        isDeleting={isDeleting}
-        onToggle={handleToggle}
-        onDelete={handleDelete}
-      />
+      <TodoList list={list} isLoading={isLoading} onClick={handleClick} />
     </div>
   );
 }
