@@ -1,0 +1,93 @@
+.list {
+  padding: 24px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.listItem {
+  padding: 1em;
+  display: flex;
+  justify-content: space-between;
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+
+.listItemTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.deleteButton {
+  text-transform: uppercase;
+  font-size: 0.6em;
+  color: #c00f0c;
+  background-color: #fdd3d0;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.deleteButton:hover {
+  border-color: #ec221f;
+}
+.deleteButton:focus,
+.deleteButton:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+.listItem:hover .deleteButton {
+  opacity: 1;
+}
+
+.sortToggle {
+  display: flex;
+  gap: 8px;
+}
+
+.searchInput {
+  padding: 8px;
+  margin-bottom: 16px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.loader {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  width: 50px;
+  height: 50px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-top-color: rgba(255, 255, 255, 0.1666);
+  border-right-color: rgba(255, 255, 255, 0.1333);
+  border-bottom-color: rgba(255, 255, 255, 0.099);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@media (prefers-color-scheme: light) {
+  .listItem {
+    border-color: rgba(0, 0, 0, 0.1);
+  }
+
+  .loader {
+    border: 2px solid rgba(0, 0, 0, 0.2);
+    border-top-color: rgba(0, 0, 0, 0.1666);
+    border-right-color: rgba(0, 0, 0, 0.1333);
+    border-bottom-color: rgba(0, 0, 0, 0.099);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
