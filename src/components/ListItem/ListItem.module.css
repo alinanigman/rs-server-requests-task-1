@@ -1,19 +1,67 @@
-.list {
-  padding: 24px;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.listItem {
+.simpleItem {
   padding: 1em;
   display: flex;
   justify-content: space-between;
+  gap: 8px;
   border-width: 1px;
   border-style: solid;
   border-color: rgba(255, 255, 255, 0.1);
   border-radius: 10px;
+}
+
+.simpleItemTitle {
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.completed {
+  text-decoration: line-through;
+}
+
+.simpleItem input[type="checkbox"] {
+  accent-color: #646cff;
+}
+
+.simpleItem input:hover {
+  cursor: not-allowed;
+}
+
+.simpleItem:hover {
+  border-color: #646cff;
+  cursor: pointer;
+}
+
+.listItem {
+  width: 100%;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.listItemHeader {
+  margin-bottom: 16px;
+  padding: 1em;
+  display: flex;
+  justify-content: space-between;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+.listItemHeader label {
+  display: flex;
+  align-items: center;
+  font-size: 0.6em;
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.listItemHeader input {
+  margin-right: 8px;
 }
 
 .listItemTitle {
@@ -27,7 +75,6 @@
   font-size: 0.6em;
   color: #c00f0c;
   background-color: #fdd3d0;
-  opacity: 0;
   transition: opacity 0.2s ease;
 }
 .deleteButton:hover {
@@ -36,10 +83,6 @@
 .deleteButton:focus,
 .deleteButton:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
-}
-
-.listItem:hover .deleteButton {
-  opacity: 1;
 }
 
 .sortToggle {
@@ -71,8 +114,12 @@
 }
 
 @media (prefers-color-scheme: light) {
-  .listItem {
+  .simpleItem {
     border-color: rgba(0, 0, 0, 0.1);
+  }
+
+  .listItemHeader {
+    border-bottom-color: rgba(0, 0, 0, 0.1);
   }
 
   .loader {

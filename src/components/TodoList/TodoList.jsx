@@ -9,6 +9,7 @@ const TodoList = ({
   isDeleting,
   onToggle,
   onDelete,
+  onClick,
 }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [debouncedQuery, setDebouncedQuery] = useState("");
@@ -47,7 +48,7 @@ const TodoList = ({
         placeholder="Search todos..."
       />
       {isLoading ? (
-        <div className={styles.loader}></div>
+        <div className="loader"></div>
       ) : (
         filteredList.map((listItem) => (
           <ListItem
@@ -58,6 +59,7 @@ const TodoList = ({
             isDeleting={isDeleting}
             onToggle={() => onToggle(listItem)}
             onDelete={() => onDelete(listItem.id)}
+            onClick={() => onClick(listItem.id)}
           />
         ))
       )}
