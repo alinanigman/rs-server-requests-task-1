@@ -15,12 +15,12 @@ function TaskPage() {
   const { isDeleting, deleteTodo } = useRequestDeleteTodo();
 
   const handleToggle = () => {
-    console.log("handleToggle todo: ", todo);
-    updateTodo(todo);
+    updateTodo({ ...todo, id });
   };
 
-  const handleDelete = (todoId) => {
-    deleteTodo(todoId);
+  const handleDelete = () => {
+    deleteTodo(id);
+    navigate(-1);
   };
 
   const handleGoBackBtnClick = () => {
@@ -34,8 +34,8 @@ function TaskPage() {
         <div className="loader"></div>
       ) : (
         <ListItem
-          title={todo.title}
-          completed={todo.completed}
+          title={todo?.title ?? ""}
+          completed={todo?.completed ?? false}
           isSimple={false}
           isUpdating={isUpdating}
           isDeleting={isDeleting}
