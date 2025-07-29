@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import styles from "./TodoList.module.css";
-import { TextField } from "../index";
+import { TextField, ListItem } from "../index";
 
 const TodoList = ({
   list,
@@ -50,24 +50,14 @@ const TodoList = ({
         <div className={styles.loader}></div>
       ) : (
         filteredList.map((listItem) => (
-          <div key={listItem.id} className={styles.listItem}>
-            <div className={styles.listItemTitle}>
-              <input
-                disabled={isUpdating}
-                type="checkbox"
-                checked={listItem.completed}
-                onChange={() => onToggle(listItem)}
-              />
-              <div className={styles.listItemCheckbox}>{listItem.title}</div>
-            </div>
-            <button
-              disabled={isDeleting}
-              className={styles.deleteButton}
-              onClick={() => onDelete(listItem.id)}
-            >
-              Delete
-            </button>
-          </div>
+          <ListItem
+            title={listItem.title}
+            completed={listItem.completed}
+            isUpdating={isUpdating}
+            isDeleting={isDeleting}
+            onToggle={() => onToggle(listItem)}
+            onDelete={() => onDelete(listItem.id)}
+          />
         ))
       )}
     </div>
