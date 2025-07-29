@@ -7,7 +7,7 @@ export const useRequestUpdateTodo = () => {
 
   const updateTodo = (todo) => {
     setIsUpdating(true);
-
+    console.log("updateTodo todo: ", todo);
     const { id, completed } = todo;
     const todosRef = ref(db, `todos/${id}`);
     set(todosRef, {
