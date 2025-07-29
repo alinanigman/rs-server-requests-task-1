@@ -43,7 +43,7 @@ const ListItem = ({
         <label>
           <input
             name="todo"
-            disabled={isUpdating}
+            disabled={isUpdating || isDeleting}
             type="checkbox"
             checked={completed}
             onChange={handleOnToggle}
@@ -52,7 +52,7 @@ const ListItem = ({
         </label>
 
         <button
-          disabled={isDeleting}
+          disabled={isDeleting || isUpdating}
           className={styles.deleteButton}
           onClick={handleOnDelete}
         >
