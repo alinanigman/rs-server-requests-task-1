@@ -1,44 +1,13 @@
-import styles from "./App.module.css";
-import {
-  useRequestGetList,
-  useRequestCreateTodo,
-  useRequestUpdateTodo,
-  useRequestDeleteTodo,
-} from "./hooks";
-import { TodoForm, TodoList } from "./components";
-
-function App() {
-  const { list, isLoading } = useRequestGetList();
-  const { isCreating, createTodo } = useRequestCreateTodo();
-  const { isUpdating, updateTodo } = useRequestUpdateTodo();
-  const { isDeleting, deleteTodo } = useRequestDeleteTodo();
-
-  const handleAdd = (newTodo) => {
-    createTodo(newTodo);
-  };
-
-  const handleToggle = (todo) => {
-    updateTodo(todo);
-  };
-
-  const handleDelete = (todoId) => {
-    deleteTodo(todoId);
-  };
-
+import { Routes, Route } from "react-router-dom";
+import HomePage from "./pages/HomePage";
+import TaskPage from "./pages/TaskPage";
+const App = () => {
   return (
-    <div className={styles.App}>
-      <h1 className={styles.header}>Todo list</h1>
-      <TodoForm isCreating={isCreating} onAdd={handleAdd} />
-      <TodoList
-        list={list}
-        isLoading={isLoading}
-        isUpdating={isUpdating}
-        isDeleting={isDeleting}
-        onToggle={handleToggle}
-        onDelete={handleDelete}
-      />
-    </div>
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/task/:id" element={<TaskPage />} />
+    </Routes>
   );
-}
+};
 
 export default App;
