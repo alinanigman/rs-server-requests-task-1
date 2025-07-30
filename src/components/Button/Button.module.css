@@ -1,0 +1,44 @@
+.Button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+.Button:hover {
+  border-color: #646cff;
+}
+.Button:focus,
+.Button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+.primary {
+  color: #1565c0;
+  background-color: #bbdefb;
+}
+
+.primary:hover {
+  border-color: #0d47a1;
+}
+
+.success {
+  color: #2e7d32;
+  background-color: #c8e6c9;
+}
+
+.success:hover {
+  border-color: #1b5e20;
+}
+
+.error {
+  color: #c00f0c;
+  background-color: #fdd3d0;
+}
+
+.error:hover {
+  border-color: #ec221f;
+}
