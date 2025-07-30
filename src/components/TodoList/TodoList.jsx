@@ -1,7 +1,10 @@
 import { useState, useEffect, useMemo } from "react";
+import { TextField, ListItem } from "../../components";
 import styles from "./TodoList.module.css";
 
-const TodoList = ({ list, isLoading, onToggle, onDelete }) => {
+const DEBOUNCE_TIMEOUT = 300;
+
+const TodoList = ({ list, isLoading, onToggle, onDelete, onApplyChanges }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [debouncedQuery, setDebouncedQuery] = useState("");
   const [isSorted, setIsSorted] = useState(false);
@@ -23,43 +26,33 @@ const TodoList = ({ list, isLoading, onToggle, onDelete }) => {
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       setDebouncedQuery(searchQuery);
-    }, 300); // 300ms задержка
-
+    }, DEBOUNCE_TIMEOUT);
     return () => clearTimeout(timeoutId);
   }, [searchQuery]);
+
   return (
     <div className={styles.list}>
       <label className={styles.sortToggle}>
         <input type="checkbox" checked={isSorted} onChange={toggleSort} />
         Sort alphabetically
       </label>
-      <input
-        type="text"
+      <TextField
         value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
         placeholder="Search todos..."
-        className={styles.searchInput}
+        onChange={(e) => setSearchQuery(e.target.value)}
       />
       {isLoading ? (
         <div className={styles.loader}></div>
       ) : (
         filteredList.map((listItem) => (
-          <div key={listItem.id} className={styles.listItem}>
-            <div className={styles.listItemTitle}>
-              <input
-                type="checkbox"
-                checked={listItem.completed}
-                onChange={() => onToggle(listItem)}
-              />
-              <div className={styles.listItemCheckbox}>{listItem.title}</div>
-            </div>
-            <button
-              className={styles.deleteButton}
-              onClick={() => onDelete(listItem.id)}
-            >
-              Delete
-            </button>
-          </div>
+          <ListItem
+            key={listItem.id}
+            checked={listItem.completed}
+            title={listItem.title}
+            onApplyChanges={(val) => onApplyChanges({ ...listItem, ...val })}
+            onToggle={() => onToggle(listItem)}
+            onDelete={() => onDelete(listItem.id)}
+          />
         ))
       )}
     </div>

@@ -1,9 +1,9 @@
 export const useRequestUpdateTodo = (refresh) => {
-  const updateTodo = (todoId, completed) => {
+  const updateTodo = (todoId, completed, title) => {
     return fetch(`http://localhost:3000/todos/${todoId}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ completed }),
+      body: JSON.stringify({ completed, title }),
     })
       .then((res) => res.json())
       .then((updatedTodo) => {

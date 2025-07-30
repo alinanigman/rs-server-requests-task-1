@@ -6,52 +6,9 @@
   gap: 16px;
 }
 
-.listItem {
-  padding: 1em;
-  display: flex;
-  justify-content: space-between;
-  border-width: 1px;
-  border-style: solid;
-  border-color: rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
-}
-
-.listItemTitle {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.deleteButton {
-  text-transform: uppercase;
-  font-size: 0.6em;
-  color: #C00F0C;
-  background-color: #FDD3D0;
-  opacity: 0;
-  transition: opacity 0.2s ease;
-}
-.deleteButton:hover {
-  border-color: #EC221F;
-}
-.deleteButton:focus,
-.deleteButton:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-.listItem:hover .deleteButton {
-  opacity: 1;
-}
-
 .sortToggle {
   display: flex;
   gap: 8px;
-}
-
-.searchInput {
-  padding: 8px;
-  margin-bottom: 16px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
 }
 
 .loader {

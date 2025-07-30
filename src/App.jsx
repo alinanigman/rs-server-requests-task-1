@@ -21,12 +21,17 @@ function App() {
   };
 
   const handleToggle = (todo) => {
-    const { id, completed } = todo;
-    updateTodo(id, !completed);
+    const { id, completed, title } = todo;
+    updateTodo(id, !completed, title);
   };
 
   const handleDelete = (todoId) => {
     deleteTodo(todoId);
+  };
+
+  const handleApplyChanges = (value) => {
+    const { id, completed, newValue } = value;
+    updateTodo(id, completed, newValue);
   };
 
   return (
@@ -36,6 +41,7 @@ function App() {
       <TodoList
         list={list}
         isLoading={isLoading}
+        onApplyChanges={handleApplyChanges}
         onToggle={handleToggle}
         onDelete={handleDelete}
       />

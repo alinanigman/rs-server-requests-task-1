@@ -1,0 +1,45 @@
+.ListItem {
+  min-height: 76px;
+  padding: 1.2em;
+  display: flex;
+  justify-content: space-between;
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+
+.main {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.main .checked {
+  text-decoration: line-through;
+}
+
+.editBlock {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.ListItem:hover .actions {
+  opacity: 1;
+}
+
+@media (prefers-color-scheme: light) {
+  .ListItem {
+    border-color: rgba(0, 0, 0, 0.1);
+  }
+}
