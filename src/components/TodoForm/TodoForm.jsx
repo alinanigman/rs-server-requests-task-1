@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { TextField, Button } from "../../components";
 import styles from "./TodoForm.module.css";
 
 const TodoForm = ({ onAdd }) => {
@@ -13,16 +14,12 @@ const TodoForm = ({ onAdd }) => {
 
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
-      <input
-        className={styles.input}
-        type="text"
+      <TextField
         value={title}
-        onChange={({ target }) => setTitle(target.value)}
         placeholder="Add new todo..."
+        onChange={({ target }) => setTitle(target.value)}
       />
-      <button className={styles.button} type="submit">
-        Add
-      </button>
+      <Button color="primary">Add</Button>
     </form>
   );
 };
