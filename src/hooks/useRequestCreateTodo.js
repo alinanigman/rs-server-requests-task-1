@@ -1,4 +1,6 @@
-export const useRequestCreateTodo = (refresh) => {
+import { useRefresh } from "../contexts/RefreshContext.jsx";
+export const useRequestCreateTodo = () => {
+  const { refresh } = useRefresh();
   const createTodo = (todoText) => {
     return fetch("http://localhost:3000/todos", {
       method: "POST",

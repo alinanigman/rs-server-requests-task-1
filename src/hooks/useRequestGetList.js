@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
-export const useRequestGetList = (refreshFlag) => {
+import { useRefresh } from "../contexts/RefreshContext.jsx";
+export const useRequestGetList = () => {
+  const { refreshFlag } = useRefresh();
   const [list, setList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {

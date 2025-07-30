@@ -1,4 +1,6 @@
-export const useRequestUpdateTodo = (refresh) => {
+import { useRefresh } from "../contexts/RefreshContext.jsx";
+export const useRequestUpdateTodo = () => {
+  const { refresh } = useRefresh();
   const updateTodo = (todoId, completed, title) => {
     return fetch(`http://localhost:3000/todos/${todoId}`, {
       method: "PATCH",

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import styles from "./App.module.css";
 import {
   useRequestGetList,
@@ -9,12 +8,10 @@ import {
 import { TodoForm, TodoList } from "./components";
 
 function App() {
-  const [refreshFlag, setRefreshFlag] = useState(false);
-  const refresh = () => setRefreshFlag(!refreshFlag);
-  const { list, isLoading } = useRequestGetList(refreshFlag);
-  const { createTodo } = useRequestCreateTodo(refresh);
-  const { updateTodo } = useRequestUpdateTodo(refresh);
-  const { deleteTodo } = useRequestDeleteTodo(refresh);
+  const { list, isLoading } = useRequestGetList();
+  const { createTodo } = useRequestCreateTodo();
+  const { updateTodo } = useRequestUpdateTodo();
+  const { deleteTodo } = useRequestDeleteTodo();
 
   const handleAdd = (newTodo) => {
     createTodo(newTodo);
