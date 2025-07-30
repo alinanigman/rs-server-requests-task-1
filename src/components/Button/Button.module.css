@@ -8,6 +8,11 @@
   cursor: pointer;
   transition: border-color 0.25s;
 }
+
+.Button.small {
+  font-size: 0.51em;
+}
+
 .Button:hover {
   border-color: #646cff;
 }
