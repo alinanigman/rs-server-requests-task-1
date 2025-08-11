@@ -65,7 +65,11 @@ const ListItem = ({ id, checked, title }) => {
         >
           &#9999;
         </Button>
-        <Button color="error" disabled={isDeleting} onClick={handleDelete}>
+        <Button
+          color="error"
+          disabled={isDeleting || isUpdating}
+          onClick={handleDelete}
+        >
           &#215;
         </Button>
       </div>
