@@ -1,4 +1,5 @@
 export const updateTodo = (id, completed, title) => (dispatch) => {
+  dispatch({ type: "SET_UPDATING", payload: true });
   dispatch({ type: "SET_ERROR", payload: null });
 
   return fetch(`http://localhost:3000/todos/${id}`, {
@@ -9,5 +10,5 @@ export const updateTodo = (id, completed, title) => (dispatch) => {
     .then((r) => r.json())
     .then((updated) => dispatch({ type: "UPDATE_TODO", payload: updated }))
     .catch((e) => dispatch({ type: "SET_ERROR", payload: e.message }))
-    .finally(() => {});
+    .finally(() => dispatch({ type: "SET_UPDATING", payload: false }));
 };

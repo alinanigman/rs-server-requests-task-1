@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateTodo, deleteTodo } from "@/store/actions";
-import { selectIsLoading } from "@/store/selectors";
+import { selectIsUpdating, selectIsDeleting } from "@/store/selectors";
 import styles from "./ListItem.module.css";
 import { TextField, Button } from "@/components";
 
 const ListItem = ({ id, checked, title }) => {
   const dispatch = useDispatch();
-  const isLoading = useSelector(selectIsLoading);
+  const isUpdating = useSelector(selectIsUpdating);
+  const isDeleting = useSelector(selectIsDeleting);
   const [isEditing, setIsEditing] = useState(false);
   const [value, setValue] = useState(title);
 
@@ -34,7 +35,7 @@ const ListItem = ({ id, checked, title }) => {
         <input
           type="checkbox"
           checked={checked}
-          disabled={isLoading}
+          disabled={isUpdating || isDeleting}
           onChange={handleToggle}
         />
         {isEditing ? (
@@ -44,7 +45,11 @@ const ListItem = ({ id, checked, title }) => {
               placeholder={title}
               onChange={({ target }) => setValue(target.value)}
             />
-            <Button color="success" onClick={handleApply}>
+            <Button
+              color="success"
+              onClick={handleApply}
+              disabled={isUpdating || isDeleting}
+            >
               &#10004;
             </Button>
           </div>
@@ -55,12 +60,12 @@ const ListItem = ({ id, checked, title }) => {
       <div className={styles.actions}>
         <Button
           color="primary"
-          disabled={isLoading}
+          disabled={isUpdating || isDeleting}
           onClick={() => setIsEditing(!isEditing)}
         >
           &#9999;
         </Button>
-        <Button color="error" disabled={isLoading} onClick={handleDelete}>
+        <Button color="error" disabled={isDeleting} onClick={handleDelete}>
           &#215;
         </Button>
       </div>
