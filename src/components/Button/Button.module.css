@@ -47,3 +47,8 @@
 .error:hover {
   border-color: #ec221f;
 }
+
+.Button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
