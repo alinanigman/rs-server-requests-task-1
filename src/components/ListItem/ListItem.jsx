@@ -1,20 +1,42 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { updateTodo, deleteTodo } from "@/store/actions";
+import { selectIsLoading } from "@/store/selectors";
 import styles from "./ListItem.module.css";
-import { TextField, Button } from "../../components";
+import { TextField, Button } from "@/components";
 
-const ListItem = ({ checked, title, onToggle, onApplyChanges, onDelete }) => {
+const ListItem = ({ id, checked, title }) => {
+  const dispatch = useDispatch();
+  const isLoading = useSelector(selectIsLoading);
   const [isEditing, setIsEditing] = useState(false);
   const [value, setValue] = useState(title);
 
-  const handleOnApply = () => {
+  useEffect(() => {
+    if (!isEditing) setValue(title);
+  }, [title, isEditing]);
+
+  const handleApply = () => {
     setIsEditing(false);
-    if (onApplyChanges) onApplyChanges({ newValue: value, checked });
+    dispatch(updateTodo(id, checked, value));
+  };
+
+  const handleToggle = () => {
+    dispatch(updateTodo(id, !checked, value));
+  };
+
+  const handleDelete = () => {
+    dispatch(deleteTodo(id));
   };
 
   return (
     <div className={styles.ListItem}>
       <div className={styles.main}>
-        <input type="checkbox" checked={checked} onChange={onToggle} />
+        <input
+          type="checkbox"
+          checked={checked}
+          disabled={isLoading}
+          onChange={handleToggle}
+        />
         {isEditing ? (
           <div className={styles.editBlock}>
             <TextField
@@ -22,7 +44,7 @@ const ListItem = ({ checked, title, onToggle, onApplyChanges, onDelete }) => {
               placeholder={title}
               onChange={({ target }) => setValue(target.value)}
             />
-            <Button color="success" onClick={handleOnApply}>
+            <Button color="success" onClick={handleApply}>
               &#10004;
             </Button>
           </div>
@@ -31,10 +53,14 @@ const ListItem = ({ checked, title, onToggle, onApplyChanges, onDelete }) => {
         )}
       </div>
       <div className={styles.actions}>
-        <Button color="primary" onClick={() => setIsEditing(!isEditing)}>
+        <Button
+          color="primary"
+          disabled={isLoading}
+          onClick={() => setIsEditing(!isEditing)}
+        >
           &#9999;
         </Button>
-        <Button color="error" onClick={onDelete}>
+        <Button color="error" disabled={isLoading} onClick={handleDelete}>
           &#215;
         </Button>
       </div>

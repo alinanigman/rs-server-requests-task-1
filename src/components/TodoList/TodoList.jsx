@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { selectTodos, selectIsLoading } from "@/store/selectors";
-import { fetchTodos, updateTodo, deleteTodo } from "@/store/actions";
+import { fetchTodos } from "@/store/actions";
 import { TextField, ListItem } from "@/components";
 import { useDebouncedValue } from "@/hooks/useDebouncedValue";
 import styles from "./TodoList.module.css";
@@ -32,27 +32,6 @@ const TodoList = () => {
     return base.filter((item) => item.title.toLowerCase().includes(q));
   }, [list, isSorted, debouncedQuery]);
 
-  const handleToggle = useCallback(
-    (todo) => {
-      const { id, completed, title } = todo;
-      dispatch(updateTodo(id, !completed, title));
-    },
-    [dispatch],
-  );
-
-  const handleApplyChanges = useCallback(
-    (patch) => {
-      const { id, title, completed } = patch; // patch приходит из ListItem
-      dispatch(updateTodo(id, completed, title));
-    },
-    [dispatch],
-  );
-
-  const handleDelete = useCallback(
-    (id) => dispatch(deleteTodo(id)),
-    [dispatch],
-  );
-
   return (
     <div className={styles.list}>
       <label className={styles.sortToggle}>
@@ -72,17 +51,9 @@ const TodoList = () => {
         filteredList.map((item) => (
           <ListItem
             key={item.id}
+            id={item.id}
             checked={item.completed}
             title={item.title}
-            onApplyChanges={(val) =>
-              handleApplyChanges({
-                id: item.id,
-                completed: item.completed,
-                ...val,
-              })
-            }
-            onToggle={() => handleToggle(item)}
-            onDelete={() => handleDelete(item.id)}
           />
         ))
       )}
