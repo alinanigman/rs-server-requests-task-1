@@ -1,34 +1,57 @@
-import { useState, useEffect, useMemo } from "react";
-import { TextField, ListItem } from "../../components";
+import { useState, useEffect, useMemo, useCallback } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { selectTodos, selectIsLoading } from "@/store/selectors";
+import { fetchTodos, updateTodo, deleteTodo } from "@/store/actions";
+import { TextField, ListItem } from "@/components";
+import { useDebouncedValue } from "@/hooks/useDebouncedValue";
 import styles from "./TodoList.module.css";
 
-const DEBOUNCE_TIMEOUT = 300;
+const TodoList = () => {
+  const dispatch = useDispatch();
+  const list = useSelector(selectTodos);
+  const isLoading = useSelector(selectIsLoading);
 
-const TodoList = ({ list, isLoading, onToggle, onDelete, onApplyChanges }) => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [debouncedQuery, setDebouncedQuery] = useState("");
   const [isSorted, setIsSorted] = useState(false);
 
-  const toggleSort = () => setIsSorted((prev) => !prev);
+  useEffect(() => {
+    dispatch(fetchTodos());
+  }, [dispatch]);
 
+  const toggleSort = useCallback(() => setIsSorted((p) => !p), []);
+
+  const debouncedQuery = useDebouncedValue(searchQuery);
   const filteredList = useMemo(() => {
-    const baseList = isSorted
+    const base = isSorted
       ? [...list].sort((a, b) => a.title.localeCompare(b.title))
       : list;
 
-    if (!debouncedQuery.trim()) return baseList;
+    if (!debouncedQuery.trim()) return base;
 
-    return baseList.filter((item) =>
-      item.title.toLowerCase().includes(debouncedQuery.toLowerCase()),
-    );
+    const q = debouncedQuery.toLowerCase();
+    return base.filter((item) => item.title.toLowerCase().includes(q));
   }, [list, isSorted, debouncedQuery]);
 
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      setDebouncedQuery(searchQuery);
-    }, DEBOUNCE_TIMEOUT);
-    return () => clearTimeout(timeoutId);
-  }, [searchQuery]);
+  const handleToggle = useCallback(
+    (todo) => {
+      const { id, completed, title } = todo;
+      dispatch(updateTodo(id, !completed, title));
+    },
+    [dispatch],
+  );
+
+  const handleApplyChanges = useCallback(
+    (patch) => {
+      const { id, title, completed } = patch; // patch приходит из ListItem
+      dispatch(updateTodo(id, completed, title));
+    },
+    [dispatch],
+  );
+
+  const handleDelete = useCallback(
+    (id) => dispatch(deleteTodo(id)),
+    [dispatch],
+  );
 
   return (
     <div className={styles.list}>
@@ -36,22 +59,30 @@ const TodoList = ({ list, isLoading, onToggle, onDelete, onApplyChanges }) => {
         <input type="checkbox" checked={isSorted} onChange={toggleSort} />
         Sort alphabetically
       </label>
+
       <TextField
         value={searchQuery}
         placeholder="Search todos..."
         onChange={(e) => setSearchQuery(e.target.value)}
       />
+
       {isLoading ? (
         <div className={styles.loader}></div>
       ) : (
-        filteredList.map((listItem) => (
+        filteredList.map((item) => (
           <ListItem
-            key={listItem.id}
-            checked={listItem.completed}
-            title={listItem.title}
-            onApplyChanges={(val) => onApplyChanges({ ...listItem, ...val })}
-            onToggle={() => onToggle(listItem)}
-            onDelete={() => onDelete(listItem.id)}
+            key={item.id}
+            checked={item.completed}
+            title={item.title}
+            onApplyChanges={(val) =>
+              handleApplyChanges({
+                id: item.id,
+                completed: item.completed,
+                ...val,
+              })
+            }
+            onToggle={() => handleToggle(item)}
+            onDelete={() => handleDelete(item.id)}
           />
         ))
       )}
